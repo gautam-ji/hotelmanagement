@@ -77,6 +77,25 @@ const loginUser = async(req, res) =>{
 
 //adminLogin
 const adminLogin = async(req, res) =>{
+   const {email, password} =  req.body
+   
+    if(email !== process.env.ADMIN_EMAIL) {
+      return res.json({success:false,message:"Invalid email"})
+    }
+
+    // Compare hashed password stored in env 
+   if(password !== process.env.ADMIN_PASSWORD) {
+      return res.json({success:false, message:"Please Enter a valid password"})
+   }
+  
+
+    const token = jwt.sign(
+      {role: "admin", email},
+      process.env.JWT_SECRET,
+      {expiresIn:'1d'}
+    )
+
+     return res.json({success:true,token});
 
 }
 
