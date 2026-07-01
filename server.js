@@ -1,6 +1,7 @@
 import express from 'express'
 import 'dotenv/config'
 import connectDB from './config/connectdb.js'
+import userRouter from './routes/userRoutes.js'
 
 
 
@@ -10,8 +11,10 @@ const port = 4000
 connectDB()
 
 //middleware
+app.use(express.json())
 
 //api endpoints
+app.use('/api/user',userRouter)
 
 app.get('/',(req,res)=>{
     res.send("api Working")
