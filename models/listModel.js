@@ -45,11 +45,6 @@ const listSchema =  new mongoose.Schema({
           ],
           required:true
     },
-    owner:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'user',
-        required:true
-    },
     rating:{
         type:Number,
         default:0,

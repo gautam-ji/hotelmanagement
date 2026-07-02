@@ -1,20 +1,27 @@
-import express from 'express'
 import 'dotenv/config'
+import express from 'express'
 import connectDB from './config/connectdb.js'
 import userRouter from './routes/userRoutes.js'
+import listRouter from './routes/listRoute.js'
+import connectCloudinary from './config/cloudinary.js'
+import cookieParser from 'cookie-parser'
 
 
 
 //api config
 const app = express()
-const port = 4000
+const port = 8000
 connectDB()
+
+connectCloudinary();
 
 //middleware
 app.use(express.json())
+app.use(cookieParser());
 
 //api endpoints
 app.use('/api/user',userRouter)
+app.use('/api/list',listRouter)
 
 app.get('/',(req,res)=>{
     res.send("api Working")
