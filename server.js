@@ -13,7 +13,7 @@ const app = express()
 const port = 8000
 connectDB()
 
-connectCloudinary();
+// connectCloudinary();
 
 //middleware
 app.use(express.json())

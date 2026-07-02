@@ -30,10 +30,8 @@ const listSchema =  new mongoose.Schema({
        type:Number,required:true,min:1
     },
     location:{
-        city:String,
-        state:String,
-        country:String,
-        address:String
+        type:String,
+        required:true
     },
     propertyType:{
           type:String,
@@ -54,6 +52,11 @@ const listSchema =  new mongoose.Schema({
     available:{
         type:Boolean,
         default:true
+    },
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
  
 },{

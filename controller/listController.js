@@ -5,22 +5,18 @@ import { v2 as cloudinary } from 'cloudinary';
 const addList = async (req,res) =>{
    try{
      const {title,description,images,price,guest,bedroom,bathroom,bed,location,propertyType,rating} = req.body;
+
+     const ownerId  = req.user.id;
+
     const image1 = req.files.image1 && req.files.image1[0]
     const image2 = req.files.image2 && req.files.image2[0]
     const image3 = req.files.image3 && req.files.image3[0]
     const image4 = req.files.image4 && req.files.image4[0]
-console.log(req.files.image1)
-    const imageArray = [image1,image2,image3,image4].filter((item) => item !== undefined)
 
-    const uploadPromises = imageArray.map((file)=>{
-        return cloudinary.uploader.upload(file.path,{folder: 'uploads/'});
-    })
+    const AllImage = [image1,image2,image3,image4].filter((item) => item !== undefined)
 
-     const uploadResults = await Promise.all(uploadPromises);
+const imagesUrl = AllImage.map((file) => file.path);
 
-      const imagesUrl = uploadResults.map((result)=> result.secure_url);
-
-      console.log(imagesUrl)
     const createList = {
     title:title,
     description:description,
@@ -33,7 +29,7 @@ console.log(req.files.image1)
     location:location,
     propertyType:propertyType,
     rating:Number(rating),
-    
+    owner:ownerId
 }
 
 const newListing = listModel(createList);
@@ -50,9 +46,11 @@ res.json({success:true,newListing})
 }
 //Get All Listings
 const getAllLIstings = async (req, res) =>{
+   
   
 
-}
+}  
+
 
 // Get Single List 
 const getSinglelist = async (req, res) =>{
