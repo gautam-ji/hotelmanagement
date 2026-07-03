@@ -3,10 +3,14 @@ import userModel from "../models/userModel.js";
 import validator from "validator";
 import bcrypt from "bcrypt";
 
-const createToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "7d" });
-};
 
+const createToken = (id, role) => {
+  return jwt.sign(
+    { id, role },
+    process.env.JWT_SECRET,
+    { expiresIn: "7d" }
+  );
+};
 //Register user
 const registerUser = async (req, res) => {
   try {
@@ -47,7 +51,7 @@ const registerUser = async (req, res) => {
 
     await user.save();
 
-    const token = createToken(user._id);
+    const token = createToken(user._id,user.role);
 
     res.cookie("token", token, {
       httpOnly: true,
@@ -81,7 +85,7 @@ const loginUser = async (req, res) => {
       return res.json({ success: false, message: "Invalid Email or Password" });
     }
 
-    const token = createToken(user._id);
+    const token = createToken(user._id,user.role);
 
    res.cookie("token", token, {
       httpOnly: true,

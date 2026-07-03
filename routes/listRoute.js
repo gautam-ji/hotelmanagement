@@ -24,7 +24,7 @@ listRouter.post(
   ]),
   addList,
 );
-listRouter.get("/alllist", getAllLIstings);
+listRouter.get("/alllist", authAdmin,getAllLIstings);
 listRouter.get("/singlelist", getSinglelist);
 listRouter.post("/update", updateList);
 listRouter.post("/remove", removeListing);

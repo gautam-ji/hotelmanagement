@@ -1,5 +1,6 @@
 import listModel from "../models/listModel.js";
 import { v2 as cloudinary } from 'cloudinary';
+import userModel from "../models/userModel.js";
 
 //add Listing
 const addList = async (req,res) =>{
@@ -31,6 +32,8 @@ const imagesUrl = AllImage.map((file) => file.path);
     rating:Number(rating),
     owner:ownerId
 }
+console.log("ownerId")
+console.log(ownerId)
 
 const newListing = listModel(createList);
  await newListing.save();
@@ -46,8 +49,6 @@ res.json({success:true,newListing})
 }
 //Get All Listings
 const getAllLIstings = async (req, res) =>{
-   
-  
 
 }  
 
