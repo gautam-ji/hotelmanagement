@@ -79,12 +79,20 @@ const getSinglelist = async (req, res) =>{
 
 //update Listing
 const updateList = async (req, ers) =>{
-
+     
 }
 
 //removeListing
 const removeListing = async (req, res) =>{
+     try{
+        const removeList  = await listModel.findByIdAndDelete(req.params.id)
 
+        return res.json({success:true,message:"List remove Successfully"})
+
+     } catch(error) {
+        console.error(error)
+        return res.json({success:false,message:error.message})
+     }
 }
 
 // Search Listing 
