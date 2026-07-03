@@ -11,6 +11,7 @@ import {
 } from "../controller/listController.js";
 import upload from "../middleware/multer.js";
 import authAdmin from "../middleware/authAdmin.js";
+import authUser from "../middleware/authUser.js";
 
 const listRouter = express.Router();
 
@@ -24,8 +25,8 @@ listRouter.post(
   ]),
   addList,
 );
-listRouter.get("/alllist", authAdmin,getAllLIstings);
-listRouter.get("/singlelist/:id",authAdmin, getSinglelist);
+listRouter.get("/alllist",authUser,getAllLIstings);
+listRouter.get("/singlelist/:id",authUser, getSinglelist);
 listRouter.post("/update/:id",authAdmin, updateList);
 listRouter.post("/remove/:id",authAdmin, removeListing);
 listRouter.post("/searchlisting", searchListing);

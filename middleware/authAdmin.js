@@ -9,7 +9,7 @@ const authAdmin = (req, res, next) => {
     }
 
     const decode = jwt.verify(token, process.env.JWT_SECRET)
-     console.log(decode);
+    
     if(decode.role !== "admin") {
       return res.json({success:false,message:"Access Denied"})
     }
