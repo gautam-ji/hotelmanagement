@@ -64,7 +64,17 @@ const getAllLIstings = async (req, res) =>{
 
 // Get Single List 
 const getSinglelist = async (req, res) =>{
+     try{
 
+        // const {id} = req.params;
+        const singleList = await listModel.findById(req.params.id)
+
+        res.json({success:true, singleList})
+
+     }catch(error){
+        console.error(error)
+        res.json({success:false,message:error.message})
+     }
 }
 
 //update Listing
