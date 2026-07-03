@@ -31,6 +31,6 @@ listRouter.post("/update/:id",authAdmin, updateList);
 listRouter.post("/remove/:id",authAdmin, removeListing);
 listRouter.get("/searchlisting",authUser, searchListing);
 listRouter.get("/filterlist",authUser, filterListing);
-listRouter.get("/hostlist", getHostListings);
+listRouter.get("/hostlist",authAdmin, getHostListings);
 
 export default listRouter;

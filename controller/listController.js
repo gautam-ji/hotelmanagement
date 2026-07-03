@@ -193,7 +193,22 @@ const filterListing = async (req, res) => {
 };
 
 //Get HostListing
-const getHostListings = async (req, res) => {};
+const getHostListings = async (req, res) => {
+  try {
+    const allList = await listModel
+      .find({})
+      .populate("owner", "userName email");
+
+    return res.json({
+      success: true,
+      message: "fetch Listing SuccessFully ",
+      allList,
+    });
+  } catch (error) {
+    console.error(error);
+    res.json({ success: false, message: error.message });
+  }
+};
 
 export {
   addList,
