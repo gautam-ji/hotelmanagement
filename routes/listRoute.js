@@ -29,7 +29,7 @@ listRouter.get("/alllist",authUser,getAllLIstings);
 listRouter.get("/singlelist/:id",authUser, getSinglelist);
 listRouter.post("/update/:id",authAdmin, updateList);
 listRouter.post("/remove/:id",authAdmin, removeListing);
-listRouter.post("/searchlisting", searchListing);
+listRouter.get("/searchlisting",authUser, searchListing);
 listRouter.post("/filterlist", filterListing);
 listRouter.get("/hostlist", getHostListings);
 

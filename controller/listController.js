@@ -91,7 +91,7 @@ const updateList = async (req, res) => {
     const { id } = req.params;
     // const { updates } = req.body;
     const updateList = await listModel
-      .findByIdAndUpdate(id, req.body,{new:true})
+      .findByIdAndUpdate(id, req.body, { new: true })
       .populate("owner", "userName email");
 
     if (!updateList) {
@@ -126,7 +126,37 @@ const removeListing = async (req, res) => {
 };
 
 // Search Listing
-const searchListing = async (req, res) => {};
+const searchListing = async (req, res) => {
+  try {
+    const { keyword } = req.query;
+
+    let query = {};
+
+    if (keyword) {
+      query = {
+        $or: [
+          { title: { $regex: keyword, $options: "i" } },
+          { location: { $regrex: keyword, $options: "i" } },
+          { description: { $regex: keyword, $options: "i" } },
+        ],
+      };
+    }
+
+    const Listings = await listModel
+      .find(query)
+      .populate("owner", "userName email");
+
+    return res.json({
+      success: true,
+      message: "Search result fetched successfully",
+      count: Listings.length,
+      data: Listings,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.json({ success: false, message: error.message });
+  }
+};
 
 //Filter Listing
 const filterListing = async (req, res) => {};
