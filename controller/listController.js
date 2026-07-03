@@ -49,7 +49,16 @@ res.json({success:true,newListing})
 }
 //Get All Listings
 const getAllLIstings = async (req, res) =>{
+       try{
+ const allList = await listModel.find({}).populate('owner', 'userName email')
 
+         return res.json({success:true,allList})
+
+       } catch(error){
+         console.error(error)
+         res.json({success:false,message:error.message})
+       }
+         
 }  
 
 
