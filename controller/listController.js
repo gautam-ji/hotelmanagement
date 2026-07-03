@@ -159,7 +159,38 @@ const searchListing = async (req, res) => {
 };
 
 //Filter Listing
-const filterListing = async (req, res) => {};
+const filterListing = async (req, res) => {
+  try {
+    const { title, location, minPrice, maxPrice } = req.body;
+    let query = {};
+
+    if (title) {
+      query.title = { $regex: title, $options: "i" };
+    }
+    if (location) {
+      query.location = { $regex: location, $options: "i" };
+    }
+
+    if (minPrice || maxPrice) {
+      query.price = {};
+      if (minPrice) query.price.$gte = Number(minPrice);
+      if (maxPrice) query.price.$lte = Number(maxPrice);
+    }
+
+    const filteredListings = await listModel
+      .find(query)
+      .populate("owner", "userName email");
+    res.json({
+      success: true,
+      message: "Filtered results fetched successfully",
+      count: filteredListings.length,
+      data: filteredListings,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.json({ success: false, message: error.message });
+  }
+};
 
 //Get HostListing
 const getHostListings = async (req, res) => {};
