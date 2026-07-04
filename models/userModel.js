@@ -14,7 +14,16 @@ const userSchema = new mongoose.Schema({
         type:String,
         enum:['admin','user'],
         default:'user'
-    }
+    },
+    imageUpload:{
+        type:String,
+    },
+    wishList:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:'Listing'
+        }
+    ]
   
    
 },{    

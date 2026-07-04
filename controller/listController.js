@@ -46,8 +46,6 @@ const addList = async (req, res) => {
       rating: Number(rating),
       owner: ownerId,
     };
-    console.log("ownerId");
-    console.log(ownerId);
 
     const newListing = listModel(createList);
     await newListing.save();
@@ -75,7 +73,6 @@ const getAllLIstings = async (req, res) => {
 // Get Single List
 const getSinglelist = async (req, res) => {
   try {
-    // const {id} = req.params;
     const singleList = await listModel.findById(req.params.id);
 
     res.json({ success: true, singleList });
@@ -89,7 +86,6 @@ const getSinglelist = async (req, res) => {
 const updateList = async (req, res) => {
   try {
     const { id } = req.params;
-    // const { updates } = req.body;
     const updateList = await listModel
       .findByIdAndUpdate(id, req.body, { new: true })
       .populate("owner", "userName email");
