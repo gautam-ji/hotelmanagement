@@ -99,4 +99,23 @@ const loginUser = async (req, res) => {
   }
 };
 
-export { registerUser, loginUser };
+//getUserProfile
+const getUserProfile = async(req,res)=>{
+   try{
+  
+
+  const user = await userModel.findById(req.user.id);
+  if(!user){
+    res.json({success:false,message:"User not Found"})
+  }
+
+  const {password:pass, ...rest} = user._doc
+
+    return res.json({success:true,user:rest})
+   } catch(error) {
+    console.error(error)
+    return res.json({success:false,message:error.message})
+   }
+}
+
+export { registerUser, loginUser, getUserProfile };
