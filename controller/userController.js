@@ -4,6 +4,7 @@ import validator from "validator";
 import bcrypt from "bcrypt";
 
 
+
 const createToken = (id, role) => {
   return jwt.sign(
     { id, role },
@@ -118,4 +119,67 @@ const getUserProfile = async(req,res)=>{
    }
 }
 
-export { registerUser, loginUser, getUserProfile };
+// UpdateUserProfile
+const UpdatePassword = async (req,res) =>{
+  try{
+
+    const {password, newPassword,} = req.body
+
+    const user = await userModel.findOne({_id: req.user.id})
+
+    if(!user){
+      return res.json({success:false,message:"User not found"  })
+    }
+
+    if(!password || !newPassword) {
+      res.json({success:false,message:"Plese Enter oldPassword or NewPassword"})
+    }  
+
+    const isMatch = await bcrypt.compare(password,user.password)
+    if(!isMatch){
+      res.json({success:false,message:"old Password not match"})
+    }
+
+   user.password =  await bcrypt.hash(newPassword,10)
+
+   await user.save()
+
+   return res.json({success:true,message:'password update SuccessFully'})
+
+  } catch(error){
+    console.error(error)
+    return res.json({success:false,message:error.message})
+  }
+}
+
+// UpdateProfile 
+const UpdateUserProfile = async (req, res) =>{
+  try{
+    const {userName,email,password} = req.body
+    console.log(userName)
+
+  const user = await userModel.findOne({_id: req.user.id});
+
+  if(!user){
+    res.json({success:false,message:'user not found'})
+  }
+
+  const isMatch = await bcrypt.compare(password,user.password)
+   
+  if(!isMatch){
+    res.json({success:false,message:"Incorrect Password"})
+  }
+
+  user.userName = userName || user.userName
+  user.email = email || user.email 
+
+   const updateUser = await user.save();
+
+   return res.json({success:true,message:"Profile Update Successfully",updateUser})
+  } catch(error){
+       console.error(error)
+       return res.json({success:false,message:error.message})
+  }
+}
+
+export { registerUser, loginUser, getUserProfile ,UpdatePassword, UpdateUserProfile};
