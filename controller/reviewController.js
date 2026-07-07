@@ -10,12 +10,37 @@ const createReview = async (req, res) => {
       return res.json({ success: false, message: "Required All fields" });
     }
 
+    const listing = await listModel.findById(ListingId);
+
+    if (!listing) {
+      return res.json({ success: false, message: "Listing not found" });
+    }
+
+    const existingReview = await reviewModel.findOne({
+      user: userId,
+      listing: ListingId,
+    });
+
+    if (existingReview) {
+      return res.json({
+        success: false,
+        message: "you Already reviewed this listing",
+      });
+    }
+
     const newReview = new reviewModel({
       user: userId,
       listing: ListingId,
       comment: comment,
       rating: Number(rating),
     });
+
+    if (rating < 1 || rating > 5) {
+      return res.json({
+        success: false,
+        message: "Rating should be between 1 to 5",
+      });
+    }
 
     await newReview.save();
 
