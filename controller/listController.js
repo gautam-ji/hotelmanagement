@@ -16,7 +16,6 @@ const addList = async (req, res) => {
       bed,
       location,
       propertyType,
-      rating,
     } = req.body;
 
     const ownerId = req.user.id;
@@ -43,7 +42,6 @@ const addList = async (req, res) => {
       bed: Number(bed),
       location: location,
       propertyType: propertyType,
-      rating: Number(rating),
       owner: ownerId,
     };
 
