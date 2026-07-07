@@ -1,12 +1,12 @@
 import express from 'express'
-import userAuth from ''
-import { createReview, deleteReview, getAllReview, updateReview } from '../controller/reviewController'
+import userAuth from '../middleware/authUser.js'
+import { createReview, deleteReview, updateReview } from '../controller/reviewController.js'
 
 const reviewRouter = express.Router()
 
-reviewRouter.post('/createReview', createReview)
-reviewRouter.post('/updateRoute',updateReview)
-reviewRouter.post('delteReview',deleteReview)
+reviewRouter.post('/create', createReview)
+reviewRouter.post('/update',updateReview)
+reviewRouter.post('/delte',userAuth,deleteReview)
 
 
 export default reviewRouter
