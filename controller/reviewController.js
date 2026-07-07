@@ -1,5 +1,6 @@
 import reviewModel from "../models/reviewModel.js";
 import listModel from "../models/listModel.js";
+import mongoose from "mongoose";
 
 const createReview = async (req, res) => {
   try {
@@ -41,7 +42,6 @@ const updateReview = async (req, res) => {
   try {
     const { reviewId, rating, comment } = req.body;
 
-
     if (!reviewId || !rating || !comment) {
       return res.json({ success: false, message: "all fields are required" });
     }
@@ -54,7 +54,7 @@ const updateReview = async (req, res) => {
     const newReview = await reviewModel.findByIdAndUpdate(
       reviewId,
       reviewData,
-      { returnDocument: 'after' }
+      { returnDocument: "after" },
     );
 
     await newReview.save();
@@ -72,6 +72,15 @@ const updateReview = async (req, res) => {
 
 const deleteReview = async (req, res) => {
   try {
+    const { id } = req.body;
+
+    if (!id) {
+      return res.json({ success: false, message: "Id is required" });
+    }
+
+    const deletreview = await reviewModel.findByIdAndDelete(id);
+
+    return res.json({ success: true, message: "review Deleted Successfully" });
   } catch (error) {
     console.error(error);
     res.json({ success: false, message: error.message });
