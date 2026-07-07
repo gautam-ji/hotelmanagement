@@ -5,6 +5,7 @@ import userRouter from './routes/userRoutes.js'
 import listRouter from './routes/listRoute.js'
 import connectCloudinary from './config/cloudinary.js'
 import cookieParser from 'cookie-parser'
+import reviewRouter from './routes/reviewRoute.js'
 
 
 
@@ -22,6 +23,7 @@ app.use(cookieParser());
 //api endpoints
 app.use('/api/user',userRouter)
 app.use('/api/list',listRouter)
+app.use('/review',reviewRouter)
 
 app.get('/',(req,res)=>{
     res.send("api Working")
